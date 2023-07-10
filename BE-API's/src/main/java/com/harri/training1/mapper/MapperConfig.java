@@ -1,4 +1,4 @@
-package com.harri.training1.config;
+package com.harri.training1.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

@@ -3,7 +3,6 @@ package com.harri.training1.security;
 import com.harri.training1.models.entities.RefreshToken;
 import com.harri.training1.models.entities.User;
 import com.harri.training1.repositories.UserRepository;
-import com.harri.training1.models.entities.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.Cookie;

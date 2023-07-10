@@ -1,6 +1,5 @@
 package com.harri.training1.security;
 
-import com.harri.training1.models.entities.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

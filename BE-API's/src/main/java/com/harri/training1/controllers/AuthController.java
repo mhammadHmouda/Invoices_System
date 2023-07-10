@@ -2,9 +2,9 @@ package com.harri.training1.controllers;
 
 import com.harri.training1.models.dto.LoginDto;
 import com.harri.training1.models.dto.RegisterDto;
-import com.harri.training1.models.entities.UserDetailsImpl;
 import com.harri.training1.security.JwtUtils;
 import com.harri.training1.security.RefreshTokenUtils;
+import com.harri.training1.security.UserDetailsImpl;
 import com.harri.training1.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

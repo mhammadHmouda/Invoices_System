@@ -1,6 +1,6 @@
 package com.harri.training1.models.entities;
 
-import com.harri.training1.models.enums.RoleName;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "files")
+public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Enumerated(EnumType.STRING)
-    private RoleName name;
+    private Long id;
+    private String name;
+    private String path;
+    private String type;
+    private Long size;
 }
