@@ -1,22 +1,17 @@
 package com.harri.training1.security;
 
-import com.harri.training1.models.entities.RefreshToken;
 import com.harri.training1.models.entities.User;
 import com.harri.training1.repositories.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
-
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
@@ -33,37 +28,9 @@ public class JwtUtils implements UserDetailsService {
     @Value("${harri.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    @Value("${harri.app.jwtCookieName}")
-    private String jwtCookie;
-
     @Autowired
     private UserRepository repository;
 
-    public String getJwtFromCookies(HttpServletRequest request) {
-        Cookie cookie = WebUtils.getCookie(request, jwtCookie);
-        if (cookie != null) {
-            LOGGER.info("getJwtFromCookies :: Got token from cookies : " + cookie.getValue());
-            return cookie.getValue();
-        } else {
-            return null;
-        }
-    }
-
-    public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal, RefreshToken refreshToken) {
-        String jwt = generateTokenFromUserDetails(userPrincipal);
-        LOGGER.info("generateJwtCookie :: Token generated : " + jwt);
-
-        String refreshTokenValue = refreshToken.getToken();
-
-        String cookieValue = jwt + "|" + refreshTokenValue;
-
-        ResponseCookie cookie = ResponseCookie.from(jwtCookie, cookieValue)
-                .path("/api").maxAge(jwtExpirationMs / 1000)
-                .httpOnly(true).build();
-
-        LOGGER.info("generateJwtCookie :: Generate token cookie : " + cookie);
-        return cookie;
-    }
 
     public String generateTokenFromUserDetails(UserDetailsImpl userDetails) {
         LOGGER.debug("generateTokenFromUserDetails :: Generating token from user details: " + userDetails);
@@ -83,12 +50,6 @@ public class JwtUtils implements UserDetailsService {
                 .compact();
     }
 
-    public ResponseCookie getCleanJwtCookie() {
-        ResponseCookie cookie = ResponseCookie.from(jwtCookie, "").path("/api").build();
-        LOGGER.info("getCleanJwtCookie :: Toke removed from cookie : " + cookie);
-        return cookie;
-    }
-
     public String getUserNameFromJwtToken(String token) {
         LOGGER.debug("getUserNameFromJwtToken :: Getting username from token..");
         return Jwts.parserBuilder().setSigningKey(Base64.getDecoder().decode(jwtSecret)).build().parseClaimsJws(token.split("\\|")[0]).getBody().getSubject();
@@ -100,6 +61,11 @@ public class JwtUtils implements UserDetailsService {
     public String getRoleFromJwtToken(String token) {
         LOGGER.debug("getRoleFromJwtToken :: Getting role from token");
         return Jwts.parserBuilder().setSigningKey(Base64.getDecoder().decode(jwtSecret)).build().parseClaimsJws(token.split("\\|")[0]).getBody().get("role", String.class);
+    }
+
+    public static User getUserFromAuth(){
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return UserDetailsImpl.build(userDetails);
     }
     public boolean validateJwtToken(String authToken) {
         try {

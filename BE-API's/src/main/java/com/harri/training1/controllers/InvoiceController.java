@@ -1,16 +1,12 @@
 package com.harri.training1.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.harri.training1.models.entities.Invoice;
-import com.harri.training1.models.entities.User;
 import com.harri.training1.services.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @RestController
@@ -22,22 +18,13 @@ public class InvoiceController {
 
     @PostMapping
     public ResponseEntity<?> addInvoice(@RequestParam("files") List<MultipartFile> files, @RequestParam("invoice") String invoice){
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            Invoice inv = objectMapper.readValue(invoice, Invoice.class);
-
-            invoiceService.addInvoice(inv, files);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        invoiceService.addInvoice(invoice, files);
         return ResponseEntity.ok("Invoice added successfully!");
     }
+
     @GetMapping
-    public ResponseEntity<?> findAll(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
-                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        Page<Invoice> invoices = invoiceService.findAll(pageNumber, pageSize);
+    public ResponseEntity<?> findAll(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber){
+        Page<Invoice> invoices = invoiceService.findAll(pageNumber);
         return ResponseEntity.ok(invoices);
     }
 
@@ -46,4 +33,23 @@ public class InvoiceController {
         Invoice invoice = invoiceService.findById(id);
         return ResponseEntity.ok(invoice);
     }
+
+    @PutMapping
+    public ResponseEntity<?> updateInvoice(@RequestBody Invoice invoice){
+        invoiceService.updateInvoice(invoice);
+        return ResponseEntity.ok("Invoice updated successfully!");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id){
+        invoiceService.deleteById(id);
+        return ResponseEntity.ok("Invoice deleted successfully!");
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> findByUserId(@PathVariable Long id){
+        List<Invoice> invoices = invoiceService.findByUserId(id);
+        return ResponseEntity.ok(invoices);
+    }
+
 }

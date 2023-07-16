@@ -30,31 +30,42 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            String jwt = jwtUtils.getJwtFromCookies(request);
-            jwt = jwt.split("\\|")[0];
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                Long userId = jwtUtils.getIdFromJwtToken(jwt);
-                String userRole = jwtUtils.getRoleFromJwtToken(jwt);
 
-                LOGGER.info("doFilterInternal :: got username = " + username + " with id = " + userId + " and role = " + userRole + " from jwt.");
+            if (request.getServletPath().contains("/api/auth")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
 
-                UserDetailsImpl userDetails = jwtUtils.loadUserByUsername(username);
+            final String authHeader = request.getHeader("Authorization");
+            final String jwt;
+            
+            if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
 
-                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(userRole));
+            jwt = authHeader.substring(7);
 
-                userDetails.setAuthorities(authorities);
+            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+            Long userId = jwtUtils.getIdFromJwtToken(jwt);
+            String userRole = jwtUtils.getRoleFromJwtToken(jwt);
 
-                if (userDetails.getRole().equalsIgnoreCase(userRole)) {
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+            LOGGER.info("doFilterInternal :: got username = " + username + " with id = " + userId + " and role = " + userRole + " from jwt.");
 
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            UserDetailsImpl userDetails = jwtUtils.loadUserByUsername(username);
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    LOGGER.warn("doFilterInternal :: Invalid user role for the requested resource");
-                }
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(userRole));
+
+            userDetails.setAuthorities(authorities);
+
+            if(jwtUtils.validateJwtToken(jwt)) {
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            } else {
+                LOGGER.warn("doFilterInternal :: Invalid user role for the requested resource");
             }
 
         } catch (Exception e) {

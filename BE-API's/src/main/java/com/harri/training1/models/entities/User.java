@@ -1,11 +1,10 @@
 package com.harri.training1.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.harri.training1.models.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
@@ -27,8 +26,6 @@ public class User{
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    private RoleName role;
 }

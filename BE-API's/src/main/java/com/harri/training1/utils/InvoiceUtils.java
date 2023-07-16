@@ -1,8 +1,9 @@
 package com.harri.training1.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.harri.training1.models.entities.File;
+import com.harri.training1.models.entities.Invoice;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +24,7 @@ public class InvoiceUtils {
         }
     }
 
-    public static List<File> extractFileDetails(List<MultipartFile> files) {
+    public static List<File> extractFilesDetails(List<MultipartFile> files) {
         List<File> invoiceFiles = new ArrayList<>();
 
         files.forEach(file -> {
@@ -37,5 +38,10 @@ public class InvoiceUtils {
         });
 
         return invoiceFiles;
+    }
+
+    public static Invoice convertJsonStringToObject(String invoiceJson) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(invoiceJson, Invoice.class);
     }
 }
