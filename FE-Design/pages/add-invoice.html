@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Add Invoice</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="../shared/styles.min.css">
+    <link rel="icon" href="../favicon.ico">
+
+    <style>
+        .form-container.scrollable {
+          max-height: 180px;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+        .file-upload {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 4px;
+            width: 95px;
+            height: 40px;
+            cursor: pointer;
+        }
+      </style>
+</head>
+
+
+<body>
+    <section class="position-relative py-4 py-xl-5" style="padding: 0;margin: 0;height: 100vh;">
+        <div class="container-fluid text-start d-flex d-sm-flex d-xl-flex flex-column justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-xl-center align-items-xl-center"
+            style="height: 100%;margin: 0;padding: 0;">
+            <div class="row d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-center justify-content-xl-center align-items-xl-center"
+                style="width: 100%;">
+                <div class="col-md-6 col-xl-4">
+                    <div class="card border-0 mb-5">
+                        <div class="card-body shadow-lg d-flex flex-column align-items-center">
+                            <h1 data-bs-toggle="tooltip" data-bss-tooltip="" class="bounce animated"
+                                style="color: var(--bs-blue);" title="add invoice">Add Invoice</h1>
+                            <div style="margin-bottom: 20px;">
+                                <button class="btn btn-primary align-self-end border-2" id="add-btn">
+                                    Add Item
+                                </button>
+                            </div>
+                            <form class="text-center" id="invoice-form">
+                                <div class="container mb-3">
+                                      <div class="form-container d-flex flex-column gap-3">
+                                        <div class="row">
+                                            <div class="d-flex gap-1 justify-content-center align-items-center col-4">
+                                                <label for="name">Name</label>
+                                                <input type="text" id="name" name="names[]" class="form-control" />
+                                            </div>
+                                            <div class="d-flex gap-1 justify-content-center align-items-center col-4">
+                                                <label for="unit">Unit Price</label>
+                                                <input type="text" id="unit" name="units[]" class="form-control" />
+                                            </div>
+                                            <div class="d-flex gap-1 justify-content-center align-items-center col-4">
+                                                <label for="quantity">Quantity</label>
+                                                <input type="text" id="quantity" name="quantities[]" class="form-control" />
+                                            </div>
+                                        </div>
+                                      </div>     
+                                </div>
+
+                                <div class="file-upload">
+                                    <label for="attachment" class="file-upload-label btn-primary">Upload File</label>
+                                    <input type="file" id="attachment" multiple>
+                                </div>
+                                <div class="attachment-list mb-3">
+                                    <a id="attachmentList"></a>
+                                </div>
+
+                    
+                                <div>
+                                    <button class="btn btn-outline-primary align-self-end border-2"
+                                        data-bs-toggle="tooltip" data-bss-tooltip="" type="submit"
+                                        title="click to add invoice">Add Invoice</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://kit.fontawesome.com/70efa33b16.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/70efa33b16.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../shared/script.min.js"></script>
+    <script type="module" src="../scripts/add-invoice/add-invoice.js"></script>
+</body>
+
+</html>

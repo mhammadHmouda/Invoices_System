@@ -1,0 +1,54 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:Asia/Hebron
+X-LIC-LOCATION:Asia/Hebron
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0300
+TZNAME:EEST
+DTSTART:19700328T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SA
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0300
+TZOFFSETTO:+0200
+TZNAME:EET
+DTSTART:19701024T020000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SA
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Asia/Hebron:20230621T120000
+DTEND;TZID=Asia/Hebron:20230621T121500
+RRULE:FREQ=DAILY
+DTSTAMP:20230621T173624Z
+ORGANIZER;CN=mahmoud.hussain@harri.com:mailto:mahmoud.hussain@harri.com
+UID:in537fasuptp32mecv574t89po@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=mahmoud.hussain@harri.com;X-NUM-GUESTS=0:mailto:mahmoud.hussain@harri.c
+ om
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=mohammad.hmoudah@harri.com;X-NUM-GUESTS=0:mailto:mohammad.hmoudah@h
+ arri.com
+X-GOOGLE-CONFERENCE:https://meet.google.com/eps-msqt-kks
+X-MICROSOFT-CDO-OWNERAPPTID:29282908
+CREATED:20230621T173453Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nJoin with Google Meet: https://meet.google.com/ep
+ s-msqt-kks\nOr dial: (US) +1 240-763-0101 PIN: 262629442#\nMore phone numbe
+ rs: https://tel.meet/eps-msqt-kks?pin=2615695687703&hs=7\n\nLearn more abou
+ t Meet at: https://support.google.com/a/users/answer/9282720\n\nPlease do n
+ ot edit this section.\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20230621T173620Z
+LOCATION:
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Hmouda FollowUp
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
