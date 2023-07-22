@@ -27,11 +27,16 @@ public class JwtUtils implements UserDetailsService {
 
     @Value("${harri.app.jwtExpirationMs}")
     private int jwtExpirationMs;
-
-    @Autowired
     private UserRepository repository;
 
+    @Autowired
+    public void setRepository(UserRepository repository) {
+        this.repository = repository;
+    }
 
+    /**
+     * Generate jwt token from user information
+     */
     public String generateTokenFromUserDetails(UserDetailsImpl userDetails) {
         LOGGER.debug("generateTokenFromUserDetails :: Generating token from user details: " + userDetails);
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
@@ -50,23 +55,40 @@ public class JwtUtils implements UserDetailsService {
                 .compact();
     }
 
+    /**
+     * Extract username from jwt token subject based on the jwt secret
+     */
     public String getUserNameFromJwtToken(String token) {
         LOGGER.debug("getUserNameFromJwtToken :: Getting username from token..");
         return Jwts.parserBuilder().setSigningKey(Base64.getDecoder().decode(jwtSecret)).build().parseClaimsJws(token.split("\\|")[0]).getBody().getSubject();
     }
+
+    /**
+     * Extract userId from jwt token claims based on the jwt secret
+     */
     public Long getIdFromJwtToken(String token) {
         LOGGER.debug("getIdFromJwtToken :: Getting id from token");
         return Jwts.parserBuilder().setSigningKey(Base64.getDecoder().decode(jwtSecret)).build().parseClaimsJws(token.split("\\|")[0]).getBody().get("id", Long.class);
     }
+    /**
+     * Extract userRole from jwt token claims based on the jwt secret
+     */
     public String getRoleFromJwtToken(String token) {
         LOGGER.debug("getRoleFromJwtToken :: Getting role from token");
         return Jwts.parserBuilder().setSigningKey(Base64.getDecoder().decode(jwtSecret)).build().parseClaimsJws(token.split("\\|")[0]).getBody().get("role", String.class);
     }
 
+    /**
+     * Get logged-in user from security auth context
+     */
     public static User getUserFromAuth(){
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return UserDetailsImpl.build(userDetails);
     }
+
+    /**
+     * Check the validity jwt token and store log based on the exception throws
+     */
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder().setSigningKey(Base64.getDecoder().decode(jwtSecret)).build().parseClaimsJws(authToken);
@@ -86,6 +108,9 @@ public class JwtUtils implements UserDetailsService {
         return false;
     }
 
+    /**
+     * Load the user from repository and convert to UserDetails data
+     */
     @Override
     public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> users = repository.findByUsername(username);

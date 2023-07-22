@@ -19,6 +19,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The AuthTokenFilter class is a filter that processes and
+ * validates authentication tokens, once per each request.
+ */
 @Configuration
 public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class);
@@ -27,7 +31,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         try {
 
@@ -65,7 +71,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } else {
-                LOGGER.warn("doFilterInternal :: Invalid user role for the requested resource");
+                LOGGER.warn("doFilterInternal :: Invalid token for the requested resource");
             }
 
         } catch (Exception e) {

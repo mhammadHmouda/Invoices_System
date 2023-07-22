@@ -26,6 +26,10 @@ public class Log {
     private Action action;
 
     @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

@@ -4,6 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+/**
+ * This a generic class to map between models and dto using model mapper
+ *
+ * @param <T1> This is a type of provided object
+ * @param <T2> This is a class of output object required
+ */
 @Component
 @RequiredArgsConstructor
 public class AutoMapper<T1, T2> {

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>All Invoices</title>
+    <title>Users page</title>
     <meta name="description" content="Bootstrap.">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
@@ -26,16 +26,16 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active display" href="pagintaed.html">My Invoices</a>
+                        <a class="nav-link active" href="pagintaed.html">My Invoices</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" style="font-weight: bold;">All Invoices</a>
+                        <a class="nav-link active display" id="allInvoice" href="invoices2.html">All Invoices</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active display" href="logs.html">Track actions</a>
+                        <a class="nav-link active display" id="actions" href="logs.html">Track actions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active display" id="users" href="users.html">Users</a>
+                        <a class="nav-link active displayusers" style="font-weight: bold;" id="users">Users</a>
                     </li>
                 </ul>
             </div>
@@ -64,10 +64,9 @@
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>Created At</th>
-                    <th>Total Price</th>
-                    <th>Preview</th>
-                    <th>Delete</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th class="modify">Modify</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,7 +75,7 @@
     </div>
     <script src="https://kit.fontawesome.com/70efa33b16.js" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="../scripts/invoices2/Init.Table.js"></script>
+    <script type="module" src="../scripts/users/Init.Table.js"></script>
 </body>
 
 </html>

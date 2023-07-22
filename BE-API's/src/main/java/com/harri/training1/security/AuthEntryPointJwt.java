@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The AuthEntryPointJwt class is responsible for handling response for unauthorized requests.
+ */
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
@@ -35,5 +38,4 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);
     }
-
 }

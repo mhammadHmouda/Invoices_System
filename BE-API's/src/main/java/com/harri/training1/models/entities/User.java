@@ -1,10 +1,13 @@
 package com.harri.training1.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.harri.training1.models.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,4 +31,13 @@ public class User{
 
     @Enumerated(EnumType.STRING)
     private RoleName role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Invoice> invoices;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Log> logs;
+
 }

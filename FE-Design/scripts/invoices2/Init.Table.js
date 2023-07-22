@@ -27,7 +27,7 @@ $(document).ready(() => {
 
         var table = $("#myTable").DataTable();
 
-        invoices.content.forEach((item) => {
+        invoices.forEach((item) => {
             var previewButton = '<button type="button" style="font-size: 13px;padding: 0.25rem 0.5rem;" class="btn btn-danger btn-preview">Preview</button>';
             var editButton = '<button type="button" style="font-size: 14px;padding: 0.25rem 0.5rem;" class="btn btn-primary btn-edit">Edit</button>';
             var deleteButton = '<button type="button" style="font-size: 14px;padding: 0.25rem 0.5rem;" class="btn btn-danger btn-delete">Delete</button>';

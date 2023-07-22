@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * This class declared to handle response of the unauthorized resource request
+ */
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 

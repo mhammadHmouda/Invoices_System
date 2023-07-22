@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * This class responsible for handling the exception throws in the services layer to controller layer
+ */
 @ControllerAdvice
 public class CustomExceptionHandler {
     @ExceptionHandler(LogsException.class)
@@ -30,15 +33,8 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
     @ExceptionHandler(InvoiceNotAddedException.class)
-    public ResponseEntity<?> handleInvoiceNotAdded(InvoiceNotAddedException e){
+    public ResponseEntity<?> handleInvoiceNotAdded(){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Something went wrong when try add invoice!");
     }
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception e){
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Something went wrong: " + e.getMessage());
-    }
-
-
 }
