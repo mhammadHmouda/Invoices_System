@@ -59,12 +59,12 @@ import {
     const { value: data } = await Swal.fire({
       title: "Edit Role",
       html: `
-        <select id="role" class="swal2-input w-75">
-          <option value="SUPERUSER">SUPERUSER</option>
-          <option value="USER">USER</option>
-          <option value="AUDITOR">AUDITOR</option>
-        </select>
-      `,
+      <select id="role" class="swal2-input w-75">
+        <option value="SUPERUSER" ${user.role === "SUPERUSER" ? "selected" : ""}>SUPERUSER</option>
+        <option value="USER" ${user.role === "USER" ? "selected" : ""}>USER</option>
+        <option value="AUDITOR" ${user.role === "AUDITOR" ? "selected" : ""}>AUDITOR</option>
+      </select>
+    `,
       icon: "info",
       focusConfirm: false,
       showCancelButton: true,

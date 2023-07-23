@@ -26,11 +26,11 @@ public class Log {
     private Action action;
 
     @ManyToOne
-    @JoinColumn(name = "invoice_id")
+    @JoinColumn(name = "invoice_id", nullable = false)
     private Invoice invoice;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @PrePersist

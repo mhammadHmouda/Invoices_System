@@ -4,6 +4,7 @@ import com.harri.training1.models.dto.LoginDto;
 import com.harri.training1.models.dto.RegisterDto;
 import com.harri.training1.services.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class AuthController {
      * @return ResponseEntity with a success message if user registration is successful
      */
     @PostMapping(path = "/register")
-    public ResponseEntity<?> register(@RequestBody RegisterDto dto) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDto dto) {
         authService.register(dto);
         LOGGER.info("register new user with name: " + dto.getUsername());
         return ResponseEntity.ok().body("User created successfully!");

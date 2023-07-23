@@ -9,6 +9,7 @@ import com.harri.training1.models.entities.File;
 import com.harri.training1.models.entities.Invoice;
 import com.harri.training1.repositories.InvoiceRepository;
 import com.harri.training1.utils.InvoiceUtils;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
      */
     public void addInvoice(String invoiceJson, List<MultipartFile> files) {
         try {
-            Invoice invoice = invoiceUtils.convertJsonStringToObject(invoiceJson);
+            @Valid Invoice invoice = invoiceUtils.convertJsonStringToObject(invoiceJson);
             List<File> invoiceFiles = invoiceUtils.extractFilesDetails(files);
             invoice.setFiles(invoiceFiles);
             invoiceRepository.save(invoice);
@@ -148,7 +149,6 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
             LOGGER.error("No any invoice in the system!");
             throw new InvoiceNotExistException("No invoice exists in the system!");
         }
-
 
         List<InvoiceDto> invoicesDto = invoices.stream()
                 .filter(invoice -> !invoice.isDeleted())

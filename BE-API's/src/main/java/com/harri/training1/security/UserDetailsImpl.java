@@ -2,7 +2,7 @@ package com.harri.training1.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.harri.training1.models.entities.User;
-import com.harri.training1.models.enums.RoleName;
+import com.harri.training1.models.enums.Role;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +63,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                RoleName.valueOf(user.getRole()),
+                Role.valueOf(user.getRole()),
                 null,
                 null);
 

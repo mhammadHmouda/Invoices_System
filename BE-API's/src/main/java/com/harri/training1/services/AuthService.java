@@ -6,7 +6,7 @@ import com.harri.training1.mapper.AutoMapper;
 import com.harri.training1.models.dto.LoginDto;
 import com.harri.training1.models.entities.User;
 import com.harri.training1.models.dto.RegisterDto;
-import com.harri.training1.models.enums.RoleName;
+import com.harri.training1.models.enums.Role;
 import com.harri.training1.repositories.UserRepository;
 import com.harri.training1.security.JwtUtils;
 import com.harri.training1.security.SecurityConfig;
@@ -79,7 +79,7 @@ public class AuthService {
 
         User user = autoMapper.toModel(registerDto, User.class);
         user.setPassword(securityConfig.passwordEncoder().encode(user.getPassword()));
-        user.setRole(RoleName.USER);
+        user.setRole(Role.USER);
 
         userRepository.save(user);
         LOGGER.info("Register new user in the system with name: " + registerDto.getUsername());

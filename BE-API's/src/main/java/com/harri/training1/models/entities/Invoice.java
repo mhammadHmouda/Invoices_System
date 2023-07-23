@@ -1,6 +1,8 @@
 package com.harri.training1.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,10 +27,12 @@ public class Invoice {
     @Column(columnDefinition = "boolean default false")
     private boolean isDeleted;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotEmpty
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "invoice_id")
     private List<Item> items;

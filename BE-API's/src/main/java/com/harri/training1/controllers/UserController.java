@@ -24,7 +24,6 @@ public class UserController {
         LOGGER.info("Get all users in the system.");
         return ResponseEntity.ok(users);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
         UserDto user = userService.findById(id);

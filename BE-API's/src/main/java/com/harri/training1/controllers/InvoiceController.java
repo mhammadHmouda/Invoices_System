@@ -2,6 +2,7 @@ package com.harri.training1.controllers;
 
 import com.harri.training1.models.dto.InvoiceDto;
 import com.harri.training1.services.InvoiceService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/invoices")
 public class InvoiceController {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(InvoiceController.class);
-
     private final InvoiceService invoiceService;
 
     /**
@@ -90,7 +89,7 @@ public class InvoiceController {
      */
     @PutMapping
     @PreAuthorize("hasAnyAuthority('SUPERUSER', 'USER')")
-    public ResponseEntity<?> updateInvoice(@RequestBody InvoiceDto invoice) {
+    public ResponseEntity<?> updateInvoice(@Valid @RequestBody InvoiceDto invoice) {
         invoiceService.update(invoice);
         LOGGER.info("update invoice with id = " + invoice.getId());
         return ResponseEntity.ok("Invoice updated successfully!");
