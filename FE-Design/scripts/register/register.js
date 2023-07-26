@@ -30,8 +30,8 @@ function registerUser(e) {
       }, DELAY);
     },
     error: (err) => {
-      console.log(err.responseJSON.message);
-      const message = `<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`;
+      console.log(err.responseText);
+      const message = `<div class="alert alert-danger" role="alert">${err.responseText}</div>`;
       $("#error").append(message);
       setTimeout(() => {
         $("#error").empty();

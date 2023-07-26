@@ -60,9 +60,9 @@ import {
       title: "Edit Role",
       html: `
       <select id="role" class="swal2-input w-75">
-        <option value="SUPERUSER" ${user.role === "SUPERUSER" ? "selected" : ""}>SUPERUSER</option>
-        <option value="USER" ${user.role === "USER" ? "selected" : ""}>USER</option>
-        <option value="AUDITOR" ${user.role === "AUDITOR" ? "selected" : ""}>AUDITOR</option>
+        <option value="SUPERUSER" ${user.role.name === "SUPERUSER" ? "selected" : ""}>SUPERUSER</option>
+        <option value="USER" ${user.role.name === "USER" ? "selected" : ""}>USER</option>
+        <option value="AUDITOR" ${user.role.name === "AUDITOR" ? "selected" : ""}>AUDITOR</option>
       </select>
     `,
       icon: "info",
@@ -73,8 +73,8 @@ import {
       confirmButtonColor: primaryColor,
       cancelButtonColor: dangerColor,
       preConfirm: () => {
-        const role = user.role;
-        user.role = $("#role").val();
+        const role = user.role.name;
+        user.role.name = $("#role").val();
         return {
           user: user,
           role: role
@@ -85,7 +85,7 @@ import {
     if (!data) return;
   
     const validStrings = ["SUPERUSER", "USER", "AUDITOR"];
-    if (validStrings.includes(data.user.role) && data.user.role != data.role) {
+    if (validStrings.includes(data.user.role.name) && data.user.role.name != data.role) {
 
         $.ajax({
             url: USERS_URL,

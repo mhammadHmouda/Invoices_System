@@ -79,7 +79,6 @@ import {
     if (!data) return;
   
     if (data.invoice.totalPrice != data.totalPrice) {
-        console.log(data)
 
         $.ajax({
             url: INVOICES_URL,
@@ -116,9 +115,9 @@ import {
           return `
             <tr>
               <td>${item.id}</td>
-              <td>${item.name}</td>
+              <td>${item.item.name}</td>
               <td>${item.quantity}</td>
-              <td>${item.unitPrice}</td>
+              <td>${item.item.unitPrice}</td>
             </tr>
           `;
         })
@@ -221,7 +220,7 @@ import {
                   </tr>
                 </thead>
                 <tbody>
-                  ${generateItemsHTML(item.items)}
+                  ${generateItemsHTML(item.invoiceItems)}
                 </tbody>
               </table>
             </div>

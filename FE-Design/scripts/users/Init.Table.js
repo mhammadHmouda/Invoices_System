@@ -35,7 +35,7 @@ $(document).ready(() => {
                 var editButton = '<button type="button" style="font-size: 14px;padding: 0.25rem 0.5rem;" class="btn btn-primary btn-edit modify">Edit</button>';
                 var deleteButton = '<button type="button" style="font-size: 14px;padding: 0.25rem 0.5rem;" class="btn btn-danger btn-delete modify">Delete</button>';
 
-                var rowNode = table.row.add([user.id, user.username, user.email, user.role, ""]).draw().node();
+                var rowNode = table.row.add([user.id, user.username, user.email, user.role.name, ""]).draw().node();
 
                 $(rowNode).find("td:nth-last-child(1)").html('<div class="btn-group">' + editButton + deleteButton + '</div>');
 
