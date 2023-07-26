@@ -1,7 +1,6 @@
 package com.harri.training1.models.dto;
 
-import com.harri.training1.models.enums.Role;
-import jakarta.persistence.*;
+import com.harri.training1.models.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,5 @@ public class UserDto {
 
     private String email;
 
-    @Enumerated(EnumType.STRING)
     private Role role;
 }

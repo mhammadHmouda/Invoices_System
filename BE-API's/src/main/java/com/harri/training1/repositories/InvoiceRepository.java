@@ -18,4 +18,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     @Transactional
     @Query("UPDATE Invoice i SET i.isDeleted = true WHERE i.id = :id")
     void softDeleteById(@Param("id") Long invoiceId);
+
+    List<Invoice> findByTotalPrice(float totalPrice);
 }

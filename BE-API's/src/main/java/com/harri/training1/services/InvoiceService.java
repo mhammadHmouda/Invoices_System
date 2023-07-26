@@ -7,9 +7,10 @@ import com.harri.training1.mapper.AutoMapper;
 import com.harri.training1.models.dto.InvoiceDto;
 import com.harri.training1.models.entities.File;
 import com.harri.training1.models.entities.Invoice;
+import com.harri.training1.models.entities.InvoiceItem;
 import com.harri.training1.repositories.InvoiceRepository;
+import com.harri.training1.repositories.ItemRepository;
 import com.harri.training1.utils.InvoiceUtils;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
     private final LogService logService;
     private final InvoiceUtils invoiceUtils;
     private final AutoMapper<Invoice, InvoiceDto> mapper;
+    private final ItemRepository itemRepository;
 
     /**
      * Adds an invoice with the provided JSON representation and associated files.
@@ -40,11 +42,18 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
      */
     public void addInvoice(String invoiceJson, List<MultipartFile> files) {
         try {
-            @Valid Invoice invoice = invoiceUtils.convertJsonStringToObject(invoiceJson);
+            Invoice invoice = invoiceUtils.convertJsonStringToObject(invoiceJson);
+            List<InvoiceItem> invoiceItems = invoice.getInvoiceItems();
+            for (InvoiceItem invoiceItem : invoiceItems) {
+                invoiceItem.setInvoice(invoice);
+                invoiceItem.setItem(itemRepository.getReferenceById(invoiceItem.getItem().getId()));
+            }
             List<File> invoiceFiles = invoiceUtils.extractFilesDetails(files);
             invoice.setFiles(invoiceFiles);
+
             invoiceRepository.save(invoice);
             logService.createAddLog(invoice);
+
         } catch (Exception e) {
             LOGGER.error("Something went wrong when add new invoice: " + e.getMessage());
             throw new InvoiceNotAddedException(e.getMessage());
@@ -110,7 +119,10 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
             LOGGER.error("The invoice with id = " + invoiceDto.getId() + " Not exist");
             throw new InvoiceNotExistException("Invoice does not exist!");
         }
+
         Invoice invoice = mapper.toModel(invoiceDto, Invoice.class);
+        invoice.getInvoiceItems().forEach(invoiceItem -> invoiceItem.setInvoice(invoice));
+
         invoiceRepository.save(invoice);
         logService.createUpdateLog(invoice);
     }
@@ -145,6 +157,7 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
     public List<InvoiceDto> findAll() {
         List<Invoice> invoices = invoiceRepository.findAll();
 
+
         if (invoices.isEmpty()) {
             LOGGER.error("No any invoice in the system!");
             throw new InvoiceNotExistException("No invoice exists in the system!");
@@ -154,6 +167,7 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
                 .filter(invoice -> !invoice.isDeleted())
                 .map(invoice -> mapper.toDto(invoice, InvoiceDto.class))
                 .toList();
+
 
         if (invoicesDto.isEmpty()){
             LOGGER.error("All invoices are deleted from the system!");
@@ -188,5 +202,16 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
         }
 
         return invoicesDto;
+    }
+
+    public List<InvoiceDto> findByTotalPrice(float totalPrice){
+        List<Invoice> invoices = invoiceRepository.findByTotalPrice(totalPrice);
+
+        if (invoices.isEmpty())
+            throw new InvoiceNotExistException("Invoice with total price = " + totalPrice + " not exist!");
+
+        return invoices.stream()
+                .map(invoice -> mapper.toDto(invoice, InvoiceDto.class))
+                .toList();
     }
 }

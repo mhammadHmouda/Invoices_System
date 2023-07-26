@@ -1,7 +1,6 @@
 package com.harri.training1.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.harri.training1.models.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -31,7 +30,11 @@ public class User{
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "boolean default false")
+    private boolean isDeleted;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

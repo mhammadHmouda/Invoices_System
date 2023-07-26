@@ -43,4 +43,23 @@ public class UserController {
         LOGGER.info("Update user with id = " + user.getId());
         return ResponseEntity.ok("User updated successfully!");
     }
+
+    @GetMapping("/roles")
+    public ResponseEntity<?> findAllRoles(){
+        List<String> roles = userService.findAllRoles();
+
+        return ResponseEntity.ok(roles);
+    }
+
+    @GetMapping("/username/{name}")
+    public ResponseEntity<?> findByUsername(@PathVariable String name){
+        UserDto user = userService.findByUsername(name);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/role/{name}")
+    public ResponseEntity<?> findByRole(@PathVariable String name){
+        List<UserDto> users = userService.findByRole(name);
+        return ResponseEntity.ok(users);
+    }
 }

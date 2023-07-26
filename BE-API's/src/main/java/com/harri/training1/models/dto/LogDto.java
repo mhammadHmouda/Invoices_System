@@ -1,5 +1,6 @@
 package com.harri.training1.models.dto;
 
+import com.harri.training1.models.entities.Invoice;
 import com.harri.training1.models.entities.User;
 import com.harri.training1.models.enums.Action;
 import jakarta.persistence.EnumType;
@@ -22,6 +23,8 @@ public class LogDto {
 
     @Enumerated(EnumType.STRING)
     private Action action;
+
+    private Invoice invoice;
 
     private User user;
 }

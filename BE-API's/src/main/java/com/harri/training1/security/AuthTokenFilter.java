@@ -44,7 +44,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
-            
+
             if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -59,9 +59,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             LOGGER.info("doFilterInternal :: got username = " + username + " with id = " + userId + " and role = " + userRole + " from jwt.");
 
             UserDetailsImpl userDetails = jwtUtils.loadUserByUsername(username);
-
             List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(userRole));
-
             userDetails.setAuthorities(authorities);
 
             if(jwtUtils.validateJwtToken(jwt)) {

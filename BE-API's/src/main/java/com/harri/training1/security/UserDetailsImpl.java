@@ -1,8 +1,8 @@
 package com.harri.training1.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.harri.training1.models.entities.Role;
 import com.harri.training1.models.entities.User;
-import com.harri.training1.models.enums.Role;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +27,10 @@ public class UserDetailsImpl implements UserDetails {
     private String name;
     @JsonIgnore
     private String password;
-    private String role;
+    private Role role;
     private static Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id,  String email, String password,String name, String role,
+    public UserDetailsImpl(Long id,  String email, String password,String name, Role role,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = name;
@@ -51,7 +51,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getEmail(),
                 user.getPassword(),
                 user.getUsername(),
-                user.getRole().name(),
+                user.getRole(),
                 authorities);
     }
 
@@ -63,7 +63,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                Role.valueOf(user.getRole()),
+                false,
+                user.getRole(),
                 null,
                 null);
 

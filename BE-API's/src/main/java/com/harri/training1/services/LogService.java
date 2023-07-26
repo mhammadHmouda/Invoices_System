@@ -179,4 +179,15 @@ public class LogService implements BaseService<LogDto, Long>{
             throw new LogsException("Something went wrong when try to update invoice: (" + e.getMessage() + ")");
         }
     }
+
+    public List<LogDto> findByActionType(Action action){
+        List<Log> logs = logsRepository.findByActionType(action);
+
+        if(logs.isEmpty())
+            throw new LogsException("Logs with type: " + action + " not exist!");
+
+        return logs.stream()
+                .map(log -> mapper.toDto(log, LogDto.class))
+                .toList();
+    }
 }

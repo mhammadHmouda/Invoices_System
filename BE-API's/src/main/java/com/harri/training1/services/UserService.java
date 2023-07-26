@@ -4,7 +4,10 @@ import com.harri.training1.exceptions.UserFoundException;
 import com.harri.training1.mapper.AutoMapper;
 import com.harri.training1.models.dto.UserDto;
 import com.harri.training1.models.entities.Invoice;
+import com.harri.training1.models.entities.Role;
 import com.harri.training1.models.entities.User;
+import com.harri.training1.repositories.InvoiceRepository;
+import com.harri.training1.repositories.RoleRepository;
 import com.harri.training1.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -23,6 +26,8 @@ public class UserService implements BaseService<UserDto, Long>{
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final AutoMapper<User, UserDto> mapper;
+    private final RoleRepository rolesRepository;
+    private final InvoiceRepository invoiceRepository;
 
     /**
      * Get all the users in system
@@ -39,6 +44,7 @@ public class UserService implements BaseService<UserDto, Long>{
         }
 
         return users.stream()
+                .filter(user -> !user.isDeleted())
                 .map(user -> mapper.toDto(user, UserDto.class)).toList();
     }
 
@@ -77,10 +83,11 @@ public class UserService implements BaseService<UserDto, Long>{
 
         if(invoices != null) {
             LOGGER.info("Delete all invoices associated with this user.");
-            invoices.clear();
+            invoices.forEach(invoice -> invoice.setDeleted(true));
+            invoiceRepository.saveAll(invoices);
         }
 
-        userRepository.delete(user);
+        userRepository.softDeleteById(user.getId());
     }
 
     /**
@@ -97,8 +104,36 @@ public class UserService implements BaseService<UserDto, Long>{
             throw new UserFoundException("User with id = " + userDto.getId() + " Not exist!");
         }
 
-        userOptional.get().setRole(userDto.getRole());
+        userOptional.get()
+                .setRole(new Role(
+                        rolesRepository.findIdByRoleName(userDto.getRole().getName())
+                ));
+
         userRepository.save(userOptional.get());
     }
 
+    public List<String> findAllRoles(){
+        return rolesRepository.findAll()
+                .stream().map(Role::getName).toList();
+    }
+
+    public UserDto findByUsername(String name){
+        Optional<User> user = userRepository.findByUsername(name);
+
+        if (user.isEmpty())
+            throw new UserFoundException("User not exist with name: " + name);
+
+        return mapper.toDto(user.get(), UserDto.class);
+    }
+
+    public List<UserDto> findByRole(String roleName){
+        List<User> users = userRepository.findByRole(roleName);
+
+        if (users.isEmpty())
+            throw new UserFoundException("User not exist with role: " + roleName);
+
+        return users.stream()
+                .map(user -> mapper.toDto(user, UserDto.class))
+                .toList();
+    }
 }

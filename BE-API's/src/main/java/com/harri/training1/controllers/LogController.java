@@ -1,6 +1,7 @@
 package com.harri.training1.controllers;
 
 import com.harri.training1.models.dto.LogDto;
+import com.harri.training1.models.enums.Action;
 import com.harri.training1.services.LogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -9,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -85,5 +85,11 @@ public class LogController {
         logService.update(log);
         LOGGER.info("Update log with id = " + log.getId());
         return ResponseEntity.ok("Log updated successfully!");
+    }
+
+    @GetMapping("/action/{action}")
+    public ResponseEntity<?> findByAction(@PathVariable Action action){
+        List<LogDto> logs = logService.findByActionType(action);
+        return ResponseEntity.ok(logs);
     }
 }

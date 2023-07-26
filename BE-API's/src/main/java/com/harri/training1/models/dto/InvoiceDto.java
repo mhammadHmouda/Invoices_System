@@ -1,7 +1,7 @@
 package com.harri.training1.models.dto;
 
 import com.harri.training1.models.entities.File;
-import com.harri.training1.models.entities.Item;
+import com.harri.training1.models.entities.InvoiceItem;
 import com.harri.training1.models.entities.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +22,6 @@ public class InvoiceDto {
     @NotNull
     private User user;
 
-    @NotEmpty
-    private List<Item> items;
+    private List<InvoiceItem> invoiceItems;
     private List<File> files;
 }

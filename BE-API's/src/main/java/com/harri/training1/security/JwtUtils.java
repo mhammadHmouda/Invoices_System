@@ -42,7 +42,7 @@ public class JwtUtils implements UserDetailsService {
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
         claims.put("id", userDetails.getId().intValue());
         claims.put("email", userDetails.getEmail());
-        claims.put("role", userDetails.getRole());
+        claims.put("role", userDetails.getRole().getName());
 
         byte[] secretKeyBytes = Base64.getDecoder().decode(jwtSecret);
         SecretKey secretKey = new SecretKeySpec(secretKeyBytes, "HmacSHA256");

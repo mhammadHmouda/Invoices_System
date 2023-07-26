@@ -63,7 +63,9 @@ public class SecurityConfig{
         return new AuthTokenFilter();
     }
 
-    // Required for processing authentication requests.
+    /**
+     *  Required for processing authentication requests.
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
