@@ -20,4 +20,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     void softDeleteById(@Param("id") Long invoiceId);
 
     List<Invoice> findByTotalPrice(float totalPrice);
+
+    List<Invoice> findByTotalPriceIsGreaterThan(float totalPrice);
 }

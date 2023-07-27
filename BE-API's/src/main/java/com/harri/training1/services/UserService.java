@@ -112,11 +112,21 @@ public class UserService implements BaseService<UserDto, Long>{
         userRepository.save(userOptional.get());
     }
 
+    /**
+     * Retrieve the roles exist in the system as list of string
+     *
+     * @return the list of roles name
+     */
     public List<String> findAllRoles(){
         return rolesRepository.findAll()
                 .stream().map(Role::getName).toList();
     }
 
+    /**
+     * Retrieve the user with specific name
+     * @param name the username I want to search based on it
+     * @return the list of users
+     */
     public UserDto findByUsername(String name){
         Optional<User> user = userRepository.findByUsername(name);
 
@@ -126,6 +136,12 @@ public class UserService implements BaseService<UserDto, Long>{
         return mapper.toDto(user.get(), UserDto.class);
     }
 
+    /**
+     * Retrieve the users with specific role
+     *
+     * @param roleName the role
+     * @return a list of user with specific role
+     */
     public List<UserDto> findByRole(String roleName){
         List<User> users = userRepository.findByRole(roleName);
 

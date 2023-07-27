@@ -127,4 +127,10 @@ public class InvoiceController {
         List<InvoiceDto> invoices = invoiceService.findByTotalPrice(totalPrice);
         return ResponseEntity.ok(invoices);
     }
+
+    @GetMapping("/priceMore/{totalPrice}")
+    public ResponseEntity<?> findByMoreTotalPrice(@PathVariable float totalPrice){
+        List<InvoiceDto> invoices = invoiceService.findByMoreTotalPrice(totalPrice);
+        return ResponseEntity.ok(invoices);
+    }
 }

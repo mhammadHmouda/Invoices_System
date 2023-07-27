@@ -180,6 +180,12 @@ public class LogService implements BaseService<LogDto, Long>{
         }
     }
 
+    /**
+     * Retrieve the logs with specific action
+     *
+     * @param action The type of action
+     * @return the list of logs based of this action
+     */
     public List<LogDto> findByActionType(Action action){
         List<Log> logs = logsRepository.findByActionType(action);
 

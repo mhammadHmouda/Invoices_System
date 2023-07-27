@@ -204,11 +204,34 @@ public class InvoiceService implements BaseService<InvoiceDto, Long>{
         return invoicesDto;
     }
 
+    /**
+     * Retrieve all invoices matches the specific total price
+     *
+     * @param totalPrice The total price I want to search for it
+     * @return the list of invoices based of this total price
+     */
     public List<InvoiceDto> findByTotalPrice(float totalPrice){
         List<Invoice> invoices = invoiceRepository.findByTotalPrice(totalPrice);
 
         if (invoices.isEmpty())
             throw new InvoiceNotExistException("Invoice with total price = " + totalPrice + " not exist!");
+
+        return invoices.stream()
+                .map(invoice -> mapper.toDto(invoice, InvoiceDto.class))
+                .toList();
+    }
+
+    /**
+     * Retrieve all invoices more than the specific total price
+     *
+     * @param totalPrice The total price I want to search for it
+     * @return the list of invoices based of this total price
+     */
+    public List<InvoiceDto> findByMoreTotalPrice(float totalPrice){
+        List<Invoice> invoices = invoiceRepository.findByTotalPriceIsGreaterThan(totalPrice);
+
+        if (invoices.isEmpty())
+            throw new InvoiceNotExistException("Invoice with total price more than " + totalPrice + " not exist!");
 
         return invoices.stream()
                 .map(invoice -> mapper.toDto(invoice, InvoiceDto.class))
