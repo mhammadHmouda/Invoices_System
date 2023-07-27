@@ -1,6 +1,11 @@
 import { parseJwt} from "../../utils/tokenUtils.js"
 import { ITEMS_URL, INVOICES_URL, DELAY } from "../../settings/settings.js";
   
+  const token = localStorage.getItem('token');
+
+  if(!token){
+    location.href = "../../pages/login.html"
+  }
   
   const form = document.querySelector("#invoice-form");
   const formContainer = document.querySelector(".form-container");
@@ -58,7 +63,7 @@ import { ITEMS_URL, INVOICES_URL, DELAY } from "../../settings/settings.js";
       setTimeout(() => {
         $("#error").empty();
       }, DELAY);
-      
+
       throw error;
     }
   }
